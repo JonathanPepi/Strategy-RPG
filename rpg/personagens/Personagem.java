@@ -1,10 +1,10 @@
 package rpg.personagens;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import rpg.armas.Arma;
 import rpg.status.StatusEffect;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 
 public abstract class Personagem {
     protected String nome;
@@ -69,6 +69,11 @@ public abstract class Personagem {
         } else {
             System.out.println("Índice de arma inválido!");
         }
+    }
+
+    public void adicionarStatusEffect(StatusEffect efeito) {
+        this.statusEffects.add(efeito);
+        System.out.println("Efeito '" + efeito.getNome() + "' aplicado em " + this.nome);
     }
     
 
