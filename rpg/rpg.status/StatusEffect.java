@@ -23,6 +23,5 @@ public abstract class StatusEffect {
         return nome;
     }
 
-    // Método que será implementado por cada efeito específico
     public abstract void aplicarEfeito(Personagem alvo);
 }

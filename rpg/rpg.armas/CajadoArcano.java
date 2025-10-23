@@ -22,7 +22,6 @@ public class CajadoArcano implements Arma {
         System.out.println(atacante.getNome() + " conjura Bola de Fogo em " + alvo.getNome() + "!");
         alvo.receberDano(danoBase);
 
-        // Efeito Especial: Causa queimadura
         alvo.adicionarStatusEffect(new Queimadura(2));
     }
 }

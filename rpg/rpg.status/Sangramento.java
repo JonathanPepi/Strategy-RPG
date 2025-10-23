@@ -11,6 +11,6 @@ public class Sangramento extends StatusEffect {
     public void aplicarEfeito(Personagem alvo) {
         int danoSangramento = 5;
         System.out.println("🩸 " + alvo.getNome() + " sofre " + danoSangramento + " de dano por sangramento.");
-        alvo.receberDanoDireto(danoSangramento); // Dano que ignora passivas
+        alvo.receberDanoDireto(danoSangramento); 
     }
 }

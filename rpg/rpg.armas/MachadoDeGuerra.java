@@ -22,7 +22,6 @@ public class MachadoDeGuerra implements Arma {
         System.out.println(atacante.getNome() + " desfere um golpe esmagador em " + alvo.getNome() + "!");
         alvo.receberDano(danoBase);
         
-        // Efeito Especial: 25% de chance de atordoar
         if (Math.random() < 0.25) {
             alvo.adicionarStatusEffect(new Atordoado(1));
         }

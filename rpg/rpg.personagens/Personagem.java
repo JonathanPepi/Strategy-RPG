@@ -13,6 +13,9 @@ public abstract class Personagem {
     protected int mana, manaMaxima;
     private Arma armaEquipada;
     private List<StatusEffect> statusEffects = new ArrayList<>();
+    
+   
+    private List<Arma> inventario = new ArrayList<>();
 
     public Personagem(String nome, int forca, int destreza, int inteligencia, int vida, int mana) {
         this.nome = nome;
@@ -26,20 +29,18 @@ public abstract class Personagem {
     }
 
     public void atacar(Personagem alvo) {
+        if (isAtordoado()) {
+            System.out.println("😵 " + this.nome + " está atordoado e não pode atacar!");
+            return;
+        }
         if (armaEquipada == null) {
             System.out.println(nome + " está desarmado e não pode atacar!");
             return;
         }
-        System.out.println("\n--- Turno de " + this.nome + " ---");
+        System.out.println("--- Turno de " + this.nome + " ---");
         armaEquipada.usar(this, alvo);
     }
-
-    public void equiparArma(Arma arma) {
-        // Implementar lógica de requisitos aqui se desejar
-        this.armaEquipada = arma;
-        System.out.println(nome + " equipou " + arma.getNome() + ".");
-    }
-
+    
     public void receberDano(int dano) {
         this.vida -= dano;
         if (this.vida < 0) {
@@ -48,22 +49,39 @@ public abstract class Personagem {
         System.out.println(this.nome + " recebeu " + dano + " de dano. Vida restante: " + this.vida);
     }
     
-    // Dano que não é afetado por passivas (de status, etc.)
     public void receberDanoDireto(int dano) {
         this.vida -= dano;
         if (this.vida < 0) this.vida = 0;
     }
+    
+   
+    public void adicionarArmaAoInventario(Arma arma) {
+        this.inventario.add(arma);
+        if (this.armaEquipada == null) {
+            equiparArma(0);
+        }
+    }
 
-    public void adicionarStatusEffect(StatusEffect efeito) {
-        this.statusEffects.add(efeito);
-        System.out.println("Efeito '" + efeito.getNome() + "' aplicado em " + this.nome);
+    public void equiparArma(int indiceInventario) {
+        if (indiceInventario >= 0 && indiceInventario < inventario.size()) {
+            this.armaEquipada = inventario.get(indiceInventario);
+            System.out.println("🔧 " + nome + " equipou " + this.armaEquipada.getNome() + ".");
+        } else {
+            System.out.println("Índice de arma inválido!");
+        }
     }
     
-    public void processarInicioTurno() {
-        // Aplica passivas de regeneração (Mago)
-        aplicarPassivasDeTurno();
 
-        // Itera e aplica efeitos de status
+    public String getNome() { return nome; }
+    public Arma getArmaEquipada() { return armaEquipada; }
+    public int getMana() { return mana; }
+    public void gastarMana(int custo) { this.mana -= custo; }
+    public boolean estaVivo() { return this.vida > 0; }
+    public boolean isAtordoado() { return statusEffects.stream().anyMatch(e -> e.getNome().equals("Atordoado")); }
+    protected void aplicarPassivasDeTurno() {}
+
+    public void processarInicioTurno() {
+        aplicarPassivasDeTurno();
         Iterator<StatusEffect> iterator = statusEffects.iterator();
         while(iterator.hasNext()) {
             StatusEffect efeito = iterator.next();
@@ -76,22 +94,8 @@ public abstract class Personagem {
         }
     }
 
-    public boolean isAtordoado() {
-        return statusEffects.stream().anyMatch(e -> e.getNome().equals("Atordoado"));
-    }
-    
-    // Método para ser sobrescrito por classes com passivas de turno
-    protected void aplicarPassivasDeTurno() {}
-
-    public boolean estaVivo() {
-        return this.vida > 0;
-    }
-    
-    public String getNome() { return nome; }
-    public int getMana() { return mana; }
-    public void gastarMana(int custo) { this.mana -= custo; }
-
     public void exibirStatus() {
-        System.out.printf(" > %s | HP: %d/%d | MP: %d/%d\n", nome, vida, vidaMaxima, mana, manaMaxima);
+        System.out.printf(" > %s | HP: %d/%d | MP: %d/%d | Arma: %s\n", 
+            nome, vida, vidaMaxima, mana, manaMaxima, armaEquipada != null ? armaEquipada.getNome() : "Nenhuma");
     }
 }

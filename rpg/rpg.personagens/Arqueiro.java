@@ -7,7 +7,7 @@ public class Arqueiro extends Personagem {
 
     @Override
     public void receberDano(int dano) {
-        if (Math.random() < 0.25) { // Passiva "Esquiva" - 25% de chance
+        if (Math.random() < 0.25) { 
             System.out.println("🍃 " + this.nome + " se esquivou do ataque!");
         } else {
             super.receberDano(dano);

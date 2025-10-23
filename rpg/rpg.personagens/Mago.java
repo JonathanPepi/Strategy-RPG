@@ -7,7 +7,7 @@ public class Mago extends Personagem {
 
     @Override
     protected void aplicarPassivasDeTurno() {
-        this.mana += 10; // Passiva "Regeneração de Mana"
+        this.mana += 10; 
         if (this.mana > this.manaMaxima) {
             this.mana = this.manaMaxima;
         }

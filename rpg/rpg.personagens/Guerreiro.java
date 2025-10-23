@@ -7,7 +7,7 @@ public class Guerreiro extends Personagem {
 
     @Override
     public void receberDano(int dano) {
-        int danoReduzido = (int) (dano * 0.80); // Passiva "Pele Dura"
+        int danoReduzido = (int) (dano * 0.80); 
         System.out.println("🛡️ Pele Dura do Guerreiro reduz o dano!");
         super.receberDano(danoReduzido);
     }
